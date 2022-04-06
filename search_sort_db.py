@@ -41,32 +41,45 @@ print("----------------")
 
 # Binary Search
 
+# First Sort the names of student
+for i in range(1, len(rows_list)):
+    key = rows_list[i][1]
+    j = i-1
+    while j >= 0 and key < rows_list[j][1]:
+        rows_list[j+1][1] = rows_list[j][1]
+        j -= 1
+    rows_list[j+1][1] = key
 
-def binary_search(i, j, key, array):
+print("Sorted data on the basis of name:", rows_list)
+print("----------------")
+
+# Implement binary
+
+
+def binary_search(i, j, key, rows_list):
     if i <= j:
         mid = (i + j) // 2
-        if key == array[mid]:
-            for r in rows:
-                if key == r[1]:
-                    print(f"{key} is found on the database")
-                    print("Show the entries:")
-                    print(f"id: {r[0]} name: {r[1]} age: {r[2]}")
-                    break
+        if key == rows_list[mid][1]:
+            print(f"{key} is found on the row no. {mid+1} of database")
+            print("----------------")
+            print(f"Show entries of {key}")
 
-        elif key > array[mid]:
+            print(
+                f"ID: {rows_list[mid][0]} Name:{rows_list[mid][1]} Age:{rows_list[mid][2]}")
+        elif key > rows_list[mid][1]:
             i = mid + 1
-            return binary_search(i, j, key, array)
+            return binary_search(i, j, key, rows_list)
 
-        elif key < array[mid]:
+        elif key < rows_list[mid][1]:
             j = mid - 1
-            return binary_search(i, j, key, array)
-
+            return binary_search(i, j, key, rows_list)
     else:
         print(f"{key} isn't found in the database")
 
 
-# key = str(input("Enter the student name you want to find:"))
-
+key = input("Enter the student name you want to find:")
+# key = 'Samrat Pudasaini'
+binary_search(0, len(rows_list), key, rows_list)
 
 # commit the changes to insert the data
 con.commit()
