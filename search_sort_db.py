@@ -18,38 +18,26 @@ cur.execute("SELECT id,name,age FROM student")
 # fetch all rows from the table
 rows = cur.fetchall()
 
-#print("Rows:", rows)
 
-# Sort the list of ages
-
-
-def insertionSort(arr):
-    for i in range(1, len(arr)):
-        key = arr[i]
-        j = i-1
-        while j >= 0 and key < arr[j]:
-            arr[j+1] = arr[j]
-            j -= 1
-        arr[j+1] = key
-
-
-age_list = []  # List of ages
-student_list = []  # List of students names
-
-# Traversing through each row of the student table
-print("Student Table Data:")
+# Convert each rows data tuple to list
+rows_list = []
 for r in rows:
-    print(f"id: {r[0]} name: {r[1]} age: {r[2]}")
-    age_list.append(r[2])
-    student_list.append(r[1])
+    rows_list.append(list(r))
+print("----------------")
+print("Rows in List:", rows_list)
+print("----------------")
 
-# Sort the ages
-insertionSort(age_list)
-print("Sorted Ages:", age_list)
+# Sort the data according to their age
+for i in range(1, len(rows_list)):
+    key = rows_list[i][2]
+    j = i-1
+    while j >= 0 and key < rows_list[j][2]:
+        rows_list[j+1][2] = rows_list[j][2]
+        j -= 1
+    rows_list[j+1][2] = key
 
-# Sort the student names
-insertionSort(student_list)
-print("Sorted Student names:", student_list)
+print("Sorted data on the basis of age:", rows_list)
+print("----------------")
 
 # Binary Search
 
@@ -77,8 +65,8 @@ def binary_search(i, j, key, array):
         print(f"{key} isn't found in the database")
 
 
-key = str(input("Enter the student name you want to find:"))
-binary_search(0, len(student_list)-1, key, student_list)
+# key = str(input("Enter the student name you want to find:"))
+
 
 # commit the changes to insert the data
 con.commit()
