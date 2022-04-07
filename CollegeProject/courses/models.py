@@ -8,3 +8,6 @@ class Course(models.Model):
     course_code = models.CharField(max_length=10)
     course_faculty = models.CharField(max_length=50)
     course_teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.course_name

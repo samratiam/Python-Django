@@ -7,3 +7,6 @@ class Teacher(models.Model):
     teacher_name = models.CharField(max_length=50)
     teacher_age = models.IntegerField()
     teacher_address = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.teacher_name
