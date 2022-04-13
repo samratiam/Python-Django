@@ -1,0 +1,8 @@
+<div class="main">
+	{% for data in dataset %}{{data.id}}. {{ data.name }}<br />
+	{{ data.author }}<br />
+	{{ data.price }}
+	<hr />
+
+	{% endfor %}
+</div>

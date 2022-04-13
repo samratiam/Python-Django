@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-# relative import of forms
 from .models import Book
 from .forms import BookForm
 
@@ -13,3 +12,11 @@ def create_view(request):
 
     context['form'] = form
     return render(request, "create_view.html", context)
+
+
+def list_view(request):
+    context = {}
+
+    context["dataset"] = Book.objects.all()
+
+    return render(request, "list_view.html", context)
