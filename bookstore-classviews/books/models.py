@@ -1,5 +1,4 @@
-from asyncio.windows_events import NULL
-from pyexpat import model
+
 from django.db import models
 
 # Create your models here.
