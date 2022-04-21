@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, CreateView
 from .models import Post
@@ -51,11 +51,16 @@ def delete(request, slug):
 
     return render(request, "posts/delete.html", context)
 
-# def search(request):
-#     keyword = request.GET['keyword']
-#     if keyword:
-#         posts = Post.objects.filter(title__icontains="keyword")
-#         return render(request,"search.html",data)
+def search(request):
+    blogs = Post.objects.all()
+    if 'keyword' in request.GET:
+        keyword = request.GET['keyword']
+        if keyword:
+            blogs = blogs.filter(title__icontains=keyword)
+        data = {'blogs':blogs}
+        return render(request,"posts/search.html",data)
+    else:
+        return HttpResponse("No results found")
 
 
 
