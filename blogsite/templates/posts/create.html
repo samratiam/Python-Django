@@ -6,7 +6,7 @@
 		<form method="post">
 			{%csrf_token%} {{form.as_p}}
 			<button class="btn btn-primary btn-sm" type="Submit">Submit</button>
-			<a href="{%url 'list'%}" class="btn btn-warning btn-sm">Back to home</a>
+			<a href="{%url 'home'%}" class="btn btn-warning btn-sm">Back to home</a>
 		</form>
 	</div>
 </body>

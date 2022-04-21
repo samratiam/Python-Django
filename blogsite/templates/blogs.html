@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<main>
+	<div class="container">
+		{%for blog in blogs%}
+		<h3>{{blog.title}}</h3>
+		<p>{{blog.content}}</p>
+		<a href="{%url 'blog-details' blog.id%}">View</a>
+		{%endfor%}
+	</div>
+</main>
+{%endblock%}
