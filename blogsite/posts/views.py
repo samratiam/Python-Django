@@ -17,8 +17,8 @@ def blogs(request):
     data = {'blogs':blogs}
     return render(request,'blogs.html',data)
 
-def blog_details(request,id):
-    blog = Post.objects.get(pk=id)
+def blog_details(request,slug):
+    blog = Post.objects.get(slug=slug)
     data = {'blog':blog}
     return render(request,'blog-details.html',data) 
 
@@ -50,7 +50,12 @@ def delete(request, id):
         return redirect("home")
 
     return render(request, "posts/delete.html", context)
-    
+
+# def search(request):
+#     keyword = request.GET['keyword']
+#     if keyword:
+#         posts = Post.objects.filter(title__icontains="keyword")
+#         return render(request,"search.html",data)
 
 
 

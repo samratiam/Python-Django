@@ -11,6 +11,7 @@ class PostForm(forms.ModelForm):
         # exclude = ['user'] 
 
         fields = '__all__'
+        
         widgets = {
             'title':forms.TextInput(attrs={'class':'form-control'}),
             'content': forms.Textarea(attrs={'class':'form-control'}),
