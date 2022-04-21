@@ -29,15 +29,15 @@
 							<td>{{p.published_date}}</td>
 							<td>
 								<a
-									href="{%url 'blog-details' p.id%}"
+									href="{%url 'blog_details' p.slug%}"
 									class="btn btn-info btn-sm"
 									>View</a
 								>
-								<a href="{%url 'update' p.id%}" class="btn btn-warning btn-sm"
+								<a href="{%url 'update' p.slug%}" class="btn btn-warning btn-sm"
 									>Update</a
 								>
 								<form
-									action="{%url 'delete' p.id%}"
+									action="{%url 'delete' p.slug%}"
 									method="post"
 									class="d-inline"
 								>

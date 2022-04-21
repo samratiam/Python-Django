@@ -22,32 +22,32 @@ def blog_details(request,slug):
     data = {'blog':blog}
     return render(request,'blog-details.html',data) 
 
-def update(request, id):
+def update(request, slug):
     context = {}
 
-    obj = get_object_or_404(Post, id=id)
+    obj = get_object_or_404(Post, slug=slug)
 
     form = PostForm(request.POST or None, instance=obj)
 
     if form.is_valid():
         form.save()
-        return redirect("home")
+        return redirect("blogs")
 
     context["form"] = form
 
     return render(request, "posts/update.html", context)
 
 
-def delete(request, id):
+def delete(request, slug):
 
     context = {}
 
-    obj = get_object_or_404(Post, id=id)
+    obj = get_object_or_404(Post, slug=slug)
 
     if request.method == "POST":
         obj.delete()
 
-        return redirect("home")
+        return redirect("blogs")
 
     return render(request, "posts/delete.html", context)
 

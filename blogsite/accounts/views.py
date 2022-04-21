@@ -23,12 +23,12 @@ def login_view(request):
                                 password = form.cleaned_data['password'])
         if user:
             login(request,user)
-            return redirect('/accounts/profile/')
+            return redirect('dashboard')
         else:
             return HttpResponse("Your credentials donot match")
     elif request.method=='GET':
         if request.user.is_authenticated:
-            return redirect('/accounts/profile/')
+            return redirect('dashboard')
         form = LoginForm()
     return render(request,'accounts/login.html',{'form':form})
     
@@ -37,7 +37,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('/accounts/login/')
+    return redirect('login')
 
 def signup_view(request):
     if request.method == 'POST':
@@ -53,7 +53,7 @@ def signup_view(request):
             user.save()
             user.set_password(form.cleaned_data['password']) #use to save hash of password
             user.save()
-            return redirect('/accounts/login/')
+            return redirect('login')
 
     elif request.method == 'GET':
         form = SignUpForm()
@@ -61,8 +61,8 @@ def signup_view(request):
     return render(request,'accounts/signup.html',{'form':form})
 
 @login_required
-def profile(request):
+def dashboard(request):
     userid = request.user.id
     posts = Post.objects.all().filter(user__id=userid)
     data = {'posts':posts}
-    return render(request,'accounts/profile.html',data)
+    return render(request,'accounts/dashboard.html',data)
