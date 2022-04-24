@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView
 from .models import Post
 from .forms import PostForm
 from .models import Post
+from django.contrib.auth.decorators import login_required
 
 class Create(CreateView):
     form_class = PostForm
@@ -22,10 +23,12 @@ def blog_details(request,slug):
     data = {'blog':blog}
     return render(request,'blog-details.html',data) 
 
+@login_required
 def update(request, slug):
     context = {}
-
-    obj = get_object_or_404(Post, slug=slug)
+    
+    obj = get_object_or_404(Post, slug=slug, user__id=request.user.id)
+    
 
     form = PostForm(request.POST or None, instance=obj)
 

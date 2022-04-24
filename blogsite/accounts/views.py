@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from accounts.models import Profile
+
 
 from posts.models import Post
 
@@ -66,3 +68,10 @@ def dashboard(request):
     posts = Post.objects.all().filter(user__id=userid)
     data = {'posts':posts}
     return render(request,'accounts/dashboard.html',data)
+
+@login_required
+def profile(request):
+    userid = request.user.id
+    profile = Profile.objects.get(user__id=userid)
+    data = {'profile':profile}
+    return render(request,'accounts/profile.html',data)

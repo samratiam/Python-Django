@@ -32,3 +32,14 @@ class SignUpForm(forms.Form):
         confirm_password = self.cleaned_data['confirm_password']
         if password != confirm_password:
             raise forms.ValidationError("Your passwords donot match")
+        
+# class Profile(forms.Form):
+#     class Meta:
+#         user = forms.OneToOneField(User, on_delete=forms.CASCADE,default=User)
+#         address = forms.CharField(max_length=60)
+#         contact = forms.CharField(max_length=10)
+#         bio = forms.CharField(max_length=255)
+        
+#         exclude = 'user'
+        
+#         fields = '__all__'

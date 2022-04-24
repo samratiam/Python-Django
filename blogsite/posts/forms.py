@@ -8,9 +8,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         
-        # exclude = ['user'] 
+        exclude = ['user','slug'] 
 
-        fields = '__all__'
+        # fields = '__all__'
         
         widgets = {
             'title':forms.TextInput(attrs={'class':'form-control'}),
