@@ -1,3 +1,9 @@
-{%extends 'base.html'%} {%block content%}
-<p>{{profile.user.first_name}}</p>
-{%endblock%}
+{% extends 'base.html'%} {% block content %}
+
+<hr />
+<form action="#" method="POST">
+	{% csrf_token %} {{ profileforms.as_p }}
+	<button>Submit</button>
+</form>
+
+{% endblock %}

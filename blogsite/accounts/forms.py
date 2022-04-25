@@ -1,6 +1,11 @@
 from django import forms
 from django.contrib.auth.models import User
 # from django.contrib.auth.models import
+from . models import Profile
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+import re
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=150)
@@ -26,20 +31,32 @@ class SignUpForm(forms.Form):
         if User.objects.filter(username=self.cleaned_data['username']).exists():
             raise forms.ValidationError("This username is taken")
         return self.cleaned_data['username']
-    
+
+    def validate_email(self):
+        email = self.cleaned_data['email']
+        try:
+            validate_email(email)
+
+        except ValidationError as e:
+            print("bad email, details:", e)
+        else:
+            print("good email")
+            
     def clean(self):
         password = self.cleaned_data['password']
         confirm_password = self.cleaned_data['confirm_password']
         if password != confirm_password:
             raise forms.ValidationError("Your passwords donot match")
+
+    def validate_password(self):
+        password = self.cleaned_data['password']
+        reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,18}$"
+        match_re = re.compile(reg)
+        res = re.search(match_re, password)
+        if res:
+            pass
+        else:
+            raise forms.ValidationError("Your passwords is not in rule")
+            
+
         
-# class Profile(forms.Form):
-#     class Meta:
-#         user = forms.OneToOneField(User, on_delete=forms.CASCADE,default=User)
-#         address = forms.CharField(max_length=60)
-#         contact = forms.CharField(max_length=10)
-#         bio = forms.CharField(max_length=255)
-        
-#         exclude = 'user'
-        
-#         fields = '__all__'

@@ -5,23 +5,40 @@ from .models import Post
 from .forms import PostForm
 from .models import Post
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
-class Create(CreateView):
-    form_class = PostForm
-    template_name = 'posts/create.html'
-    success_url = '/blogs/'
+def Create(request):
+    if request.method=='POST':
+        blogforms = PostForm(request.POST)
+
+        if blogforms.is_valid():
+            blogforms.instance.user = request.user
+            blogforms.save()
+            return redirect('blogs')
+    else:
+        blogforms = PostForm()
+        return render(request, 'posts/create.html', {'blogform':blogforms})
 
 
 
 def blogs(request):
     blogs = Post.objects.all()
-    data = {'blogs':blogs}
+    paginator = Paginator(blogs, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    data = {'blogs':blogs, 'page_obj': page_obj}
     return render(request,'blogs.html',data)
 
 def blog_details(request,slug):
     blog = Post.objects.get(slug=slug)
     data = {'blog':blog}
     return render(request,'blog-details.html',data) 
+
+
+def dashblog_details(request,slug):
+    blog = Post.objects.get(slug=slug)
+    data = {'blog':blog}
+    return render(request,'posts/dashview.html',data) 
 
 @login_required
 def update(request, slug):

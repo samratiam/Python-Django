@@ -1,3 +1,4 @@
+
 from datetime import date, datetime
 from django.db import models
 from django.contrib.auth.models import User
@@ -27,7 +28,7 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse("blog_details", kwargs={"slug": self.slug})
 
-    def save(self, *args, **kwargs):  
+    def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)

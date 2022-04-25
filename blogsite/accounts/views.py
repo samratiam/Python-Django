@@ -25,7 +25,7 @@ def login_view(request):
                                 password = form.cleaned_data['password'])
         if user:
             login(request,user)
-            return redirect('dashboard')
+            return redirect('blogs')
         else:
             return HttpResponse("Your credentials donot match")
     elif request.method=='GET':
@@ -45,6 +45,8 @@ def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
+            form.validate_email()
+            form.validate_password()
             user = USER(
             first_name = form.cleaned_data['first_name'],
             last_name = form.cleaned_data['last_name'],
@@ -64,14 +66,14 @@ def signup_view(request):
 
 @login_required
 def dashboard(request):
-    userid = request.user.id
-    posts = Post.objects.all().filter(user__id=userid)
-    data = {'posts':posts}
+    userid = request.user
+    posts = Post.objects.all().filter(user=userid)
+    data = {'posts': posts }
     return render(request,'accounts/dashboard.html',data)
 
 @login_required
 def profile(request):
-    userid = request.user.id
-    profile = Profile.objects.get(user__id=userid)
-    data = {'profile':profile}
-    return render(request,'accounts/profile.html',data)
+    return HttpResponse("I am logged in user")
+
+
+
