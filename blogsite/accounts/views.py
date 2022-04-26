@@ -45,6 +45,8 @@ def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
+            import ipdb
+            ipdb.set_trace()
             form.validate_email()
             form.validate_password()
             user = USER(
@@ -73,7 +75,8 @@ def dashboard(request):
 
 @login_required
 def profile(request):
-    return HttpResponse("I am logged in user")
+    return render(request,'accounts/profile.html')
+
 
 
 

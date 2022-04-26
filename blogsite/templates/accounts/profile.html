@@ -1,8 +1,9 @@
 {% extends 'base.html'%} {% block content %}
 
 <hr />
-<form action="#" method="POST">
-	{% csrf_token %} {{ profileforms.as_p }}
+<form action="{%url 'profile'%}" method="POST">
+	{% csrf_token %} Bio<input type="text" name="bio" /><br />
+	Address<input type="text" name="address" /><br />
 	<button>Submit</button>
 </form>
 

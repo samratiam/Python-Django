@@ -47,9 +47,7 @@ class SignUpForm(forms.Form):
         confirm_password = self.cleaned_data['confirm_password']
         if password != confirm_password:
             raise forms.ValidationError("Your passwords donot match")
-
-    def validate_password(self):
-        password = self.cleaned_data['password']
+        
         reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,18}$"
         match_re = re.compile(reg)
         res = re.search(match_re, password)
@@ -57,6 +55,10 @@ class SignUpForm(forms.Form):
             pass
         else:
             raise forms.ValidationError("Your passwords is not in rule")
+
+    # def validate_password(self):
+    #     password = self.cleaned_data['password']
+       
             
 
         
