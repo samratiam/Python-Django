@@ -10,5 +10,6 @@ urlpatterns = [
     path("update/<slug:slug>/",views.update,name="update"),
     path("delete/<slug:slug>/",views.delete,name="delete"),
     path("search/",views.search,name="search"),
+    path("export/",views.export,name="export"),
 ]
 

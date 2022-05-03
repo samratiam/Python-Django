@@ -19,28 +19,6 @@ def Create(request):
         blogforms = PostForm()
         return render(request, 'posts/create.html', {'blogform':blogforms})
 
-#Writing into google spreadsheet
-import gspread
-import os 
-CURR_DIR = os.path.dirname(os.path.realpath(__file__))
-credential_file=str(CURR_DIR)+'/credentials.json'
-
-gc = gspread.service_account(filename=credential_file)
-
-sh = gc.open("Blogsite")
-
-# print(sh.sheet1.get('A1'))
-
-#Get a cell value from Sheet1
-worksheet = sh.sheet1
-
-b = Post.objects.values_list('user__first_name',flat=True).distinct()
-print("##############")
-print(b)
-
-for i in range(len(b)):
-    worksheet.update_cell(i+2,1,b[i])
-
 
 def blogs(request):
     blogs = Post.objects.all()
@@ -103,8 +81,30 @@ def search(request):
         return render(request,"posts/search.html",data)
     else:
         return HttpResponse("No results found")
+    
+#Writing into google spreadsheet
+import gspread
+import os
 
+def export(request):
+    CURR_DIR = os.path.dirname(os.path.realpath(__file__))
+    credential_file=str(CURR_DIR)+'/credentials.json'
 
+    gc = gspread.service_account(filename=credential_file)
 
+    sh = gc.open("Blogsite")
 
+    # print(sh.sheet1.get('A1'))
+
+    #Get a cell value from Sheet1
+    worksheet = sh.sheet1
+
+    b = Post.objects.values_list('user__first_name',flat=True).distinct()
+    print("##############")
+    print(b)
+
+    for i in range(len(b)):
+        worksheet.update_cell(i+2,1,b[i])
+
+    return redirect("blogs")
     

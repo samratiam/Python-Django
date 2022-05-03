@@ -45,10 +45,8 @@ def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            import ipdb
-            ipdb.set_trace()
             form.validate_email()
-            form.validate_password()
+            # form.validate_password()
             user = USER(
             first_name = form.cleaned_data['first_name'],
             last_name = form.cleaned_data['last_name'],
@@ -75,8 +73,33 @@ def dashboard(request):
 
 @login_required
 def profile(request):
-    return render(request,'accounts/profile.html')
+    user_id = request.user.id
+    if Profile.objects.filter(user__id=user_id).exists():
+        profile = Profile.objects.get(user__id=user_id)
+        
+        data = {'profile':profile}
+        return render(request,"accounts/profile-view.html",data)
+    return redirect("blogs")
 
+# def edit_profile(request): 
+#     if request.method == 'POST':
+#         user_id = request.user.id
+#         contact = request.POST['contact']
+#         address = request.POST['address']
+#         bio = request.POST['bio']
+#         p = Profile(contact=contact,address=address,bio=bio,user_id=user_id)
+#         p.save()
+        
+#         # userprofile = Profile.objects.get(pk=id)
+#         # userprofile.contact = contact
+#         # userprofile.bio = bio
+#         # userprofile.address = address
+#         return redirect("blogs")
 
-
-
+# def update_profile(request):
+#     user_id = request.user.id
+#     if request.method=="GET":
+#         if Profile.objects.filter(user__id=user_id).exists():
+#             profile = Profile.objects.get(user__id=user_id)
+#             data = {'profile':profile}
+#             return render(request,"accounts/profile-update.html",data) 
