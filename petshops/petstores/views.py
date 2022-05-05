@@ -138,3 +138,47 @@ class CategoryViewSet(viewsets.ViewSet):
         category.delete()
         return Response({'msg':'Data deleted'})
 
+class BreedViewSet(viewsets.ViewSet):
+    def create(self, request):
+        serializer = BreedSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Data created'},status=status.HTTP_201_CREATED) 
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def list(self, request):
+        queryset = Breed.objects.all()
+        serializer = BreedSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def retrieve(self, request, pk = None):
+        queryset = Breed.objects.all()
+        breed = get_object_or_404(queryset, pk=pk)
+        serializer = BreedSerializer(breed)
+        return Response(serializer.data)
+
+    def update(self,request,pk):
+        id = pk
+        breed = Breed.objects.get(pk=id)
+        serializer = BreedSerializer(breed, data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Complete data updated'})
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def partial_update(self,request,pk):
+        id = pk
+        breed = Breed.objects.get(pk=id)
+        serializer = BreedSerializer(breed, data = request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Partial data updated'})
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)     
+
+    def destroy(self,request,pk):
+        id = pk
+        breed = Breed.objects.get(pk=id)
+        breed.delete()
+        return Response({'msg':'Data deleted'})
+
+
