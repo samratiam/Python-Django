@@ -267,4 +267,48 @@ class CustomerViewSet(viewsets.ViewSet):
         customer.delete()
         return Response({'msg':'Data deleted'})
 
+class SaleViewSet(viewsets.ViewSet):
+    def create(self, request):
+        serializer =SaleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Data created'},status=status.HTTP_201_CREATED) 
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def list(self, request):
+        queryset =Sale.objects.all()
+        serializer =SaleSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def retrieve(self, request, pk = None):
+        queryset =Sale.objects.all()
+        sale = get_object_or_404(queryset, pk=pk)
+        serializer =SaleSerializer(sale)
+        return Response(serializer.data)
+
+    def update(self,request,pk):
+        id = pk
+        sale =Sale.objects.get(pk=id)
+        serializer =SaleSerializer(sale, data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Complete data updated'})
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def partial_update(self,request,pk):
+        id = pk
+        sale =Sale.objects.get(pk=id)
+        serializer =SaleSerializer(sale, data = request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Partial data updated'})
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)     
+
+    def destroy(self,request,pk):
+        id = pk
+        sale =sale.objects.get(pk=id)
+        sale.delete()
+        return Response({'msg':'Data deleted'})
+
+
 
