@@ -181,4 +181,47 @@ class BreedViewSet(viewsets.ViewSet):
         breed.delete()
         return Response({'msg':'Data deleted'})
 
+class EmployeeViewSet(viewsets.ViewSet):
+    def create(self, request):
+        serializer = EmployeeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Data created'},status=status.HTTP_201_CREATED) 
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def list(self, request):
+        queryset = Employee.objects.all()
+        serializer = EmployeeSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def retrieve(self, request, pk = None):
+        queryset = Employee.objects.all()
+        employee = get_object_or_404(queryset, pk=pk)
+        serializer = EmployeeSerializer(employee)
+        return Response(serializer.data)
+
+    def update(self,request,pk):
+        id = pk
+        employee = Employee.objects.get(pk=id)
+        serializer = EmployeeSerializer(employee, data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Complete data updated'})
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def partial_update(self,request,pk):
+        id = pk
+        employee = Employee.objects.get(pk=id)
+        serializer = EmployeeSerializer(employee, data = request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'Partial data updated'})
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)     
+
+    def destroy(self,request,pk):
+        id = pk
+        employee = Employee.objects.get(pk=id)
+        employee.delete()
+        return Response({'msg':'Data deleted'})
+
 
