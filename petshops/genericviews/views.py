@@ -13,6 +13,68 @@ class LocationRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = LocationSerializer
 
 
+class PetstoreListCreateAPIView(ListCreateAPIView):
+    queryset = Petstore.objects.all()
+    serializer_class = PetstoreSerializer
+
+class PetstoreRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Petstore.objects.all()
+    serializer_class = PetstoreSerializer
+
+
+class CategoryListCreateAPIView(ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class CategoryRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class BreedListCreateAPIView(ListCreateAPIView):
+    queryset = Breed.objects.all()
+    serializer_class = BreedSerializer
+
+class BreedRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Breed.objects.all()
+    serializer_class = BreedSerializer
+
+class EmployeeListCreateAPIView(ListCreateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+class EmployeeRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+class SaleListCreateAPIView(ListCreateAPIView):
+    queryset = Sale.objects.all()
+    serializer_class = SaleSerializer
+
+class SaleRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Sale.objects.all()
+    serializer_class = SaleSerializer
+
+class CustomerListCreateAPIView(ListCreateAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+class CustomerRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
