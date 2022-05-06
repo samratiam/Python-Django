@@ -21,4 +21,5 @@ urlpatterns = [
     path('',include('petstores.urls')),
     path('modelviewsets/',include('modelviewsets.urls')),
     path('genericviews/',include('genericviews.urls')),
+    path('customviews/',include('customviewset.urls')),
 ]
