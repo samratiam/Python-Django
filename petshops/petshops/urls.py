@@ -22,4 +22,6 @@ urlpatterns = [
     path('modelviewsets/',include('modelviewsets.urls')),
     path('genericviews/',include('genericviews.urls')),
     path('customviews/',include('customviewset.urls')),
+    path('auth/',include('authpermission.urls')),
+    path('saleapi/',include('saleapi.urls')),
 ]

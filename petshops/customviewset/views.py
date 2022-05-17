@@ -43,22 +43,22 @@ class LocationModelViewSet(ModelViewSet):
 
         return Response(serializer.data)
     
-    # def partial_update(self, request, *args, **kwargs):
-    #     # kwargs['partial'] = True
-    #     location_object = self.get_object()
-    #     data = request.data
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        location_object = self.get_object()
+        data = request.data
 
-    #     location_object = self.get_object()
-    #     data = request.data
-    #     location_object.street = data["street"]
-    #     location_object.city = data["city"]
-    #     location_object.country = data["country"]
+        # location_object.street = data["street"]
+        # location_object.city = data["city"]
+        # location_object.country = data["country"]
 
-    #     location_object.save()
+        # location_object.save()
 
-        # serializer =LocationSerializer(location_object)
+        serializer =LocationSerializer(location_object,data)
+        if serializer.is_valid():
+            serializer.save()
 
-        # return Response(serializer.data)
+        return Response(serializer.data)
     
         
 # class PetstoreModelViewSet(ModelViewSet):

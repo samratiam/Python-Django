@@ -65,8 +65,11 @@ class Sale(models.Model):
     sale_date = models.DateField(auto_now=True)
     
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL,null=True)
-    breed = models.ManyToManyField(Breed)
+    customer = models.ForeignKey(Customer,related_name="customer_detail", on_delete=models.SET_NULL,null=True)
+    breed = models.ManyToManyField(Breed,related_name="breed_name")
+    
+    # def get_breeds(self):
+    #     return Breed.objects.filter(breed__name=self)
     
     def __str__(self):
-        return self.breed.name
+        return self.employee.name
