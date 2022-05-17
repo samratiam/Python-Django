@@ -18,8 +18,8 @@ router.register(r'employees',EmployeeModelViewSet,basename='employee')
 router.register(r'customers',CustomerModelViewSet,basename='customer')
 router.register(r'sales',SaleModelViewSet,basename='sale')
 router.register(r'register',RegistrationView,basename='register'),
-router.register(r'resetemail',RequestPasswordResetEmail,basename='resetemail'),
 # router.register(r'resetpassword',include('django_rest_passwordreset.urls'),basename='resetpassword')
+# router.register(r'password_reset',RequestPasswordResetEmail,basename='resetemail'),
 # router.register(
 #     r'passwordreset/validate_token',
 #     ResetPasswordValidateTokenViewSet,
@@ -40,7 +40,7 @@ urlpatterns = [
     path('gettoken/',MyObtainTokenPairView.as_view(),name='token_obtain_pair'), #both access and refresh token
     path('refreshtoken/',TokenRefreshView.as_view(),name='token_refresh'),  #get new refresh token
     path('verifytoken/',TokenVerifyView.as_view(),name='token_verify'), #Optional to check validation of the token
-    # path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     
     # path('login/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
     # path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
