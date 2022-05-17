@@ -36,10 +36,29 @@ class SaleModelViewSet(ModelViewSet):
     queryset = Sale.objects.all()
     
     def list(self, request):
-        queryset = Sale.objects.all()
         sale_date = self.request.query_params.get('sale_date')
+        
+        start_date = self.request.query_params.get('start_date')
+        end_date = self.request.query_params.get('end_date')
+        
         if sale_date is not None:
-            queryset = queryset.filter(sale_date__iexact=sale_date)
+            queryset = Sale.objects.filter(sale_date__iexact=sale_date)
+        
+        else:
+            if start_date is not None and end_date is not None:
+                queryset = Sale.objects.filter(sale_date__range=(start_date,end_date))
+                
         serializer_class = SaleSerializer(queryset, many=True)
         return Response(serializer_class.data)
+    
+    # def list(self,request):
+    #     start_date = self.request.query_params.get('start_date')
+    #     end_date = self.request.query_params.get('end_date')
+    #     if start_date is not None and end_date is not None:
+    #         queryset = Sale.objects.filter(sale_date__range=(start_date,end_date))
+    #     serializer_class = SaleSerializer(queryset, many=True)
+    #     return Response(serializer_class.data)
+        
+    
+        
 
