@@ -3,6 +3,8 @@ from petstores.models import Location,Petstore,Category,Breed,Employee,Sale,Cust
 from .serializers import LocationSerializer,SaleSerializer,BreedSerializer
 from .serializers import CategorySerializer,CustomerSerializer,EmployeeSerializer,PetstoreSerializer
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
+from rest_framework import status
 
 class LocationModelViewSet(ModelViewSet):
     serializer_class = LocationSerializer
@@ -32,4 +34,12 @@ class CustomerModelViewSet(ModelViewSet):
 class SaleModelViewSet(ModelViewSet):
     serializer_class = SaleSerializer
     queryset = Sale.objects.all()
+    
+    def list(self, request):
+        queryset = Sale.objects.all()
+        sale_date = self.request.query_params.get('sale_date')
+        if sale_date is not None:
+            queryset = queryset.filter(sale_date__iexact=sale_date)
+        serializer_class = SaleSerializer(queryset, many=True)
+        return Response(serializer_class.data)
 

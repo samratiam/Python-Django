@@ -40,7 +40,7 @@ class SaleSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Sale
-        fields = ['id','total_quantity','total_price','employee','customer','breed','breed_name']
+        fields = ['id','total_quantity','total_price','employee','customer','breed','breed_name','sale_date']
         # extra_kwargs = {'breed_name': {'read_only': True}}
 
         
