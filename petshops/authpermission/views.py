@@ -49,22 +49,25 @@ class PetstoreModelViewSet(ModelViewSet):
 class CategoryModelViewSet(ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    permission_classes = [IsAuthenticated]
 
 class BreedModelViewSet(ModelViewSet):
     serializer_class = BreedSerializer
     queryset = Breed.objects.all()
+    permission_classes = [IsAuthenticated]
 
 class EmployeeModelViewSet(ModelViewSet):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.all()
-
-class SaleModelViewSet(ModelViewSet):
-    serializer_class = SaleSerializer
-    queryset = Sale.objects.all()
+    permission_classes = [IsAuthenticated]
 
 class CustomerModelViewSet(ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
+    permission_classes = [IsAuthenticated]
 
+class SaleModelViewSet(ModelViewSet):
+    serializer_class = SaleSerializer
+    queryset = Sale.objects.all()
 
 

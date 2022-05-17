@@ -35,8 +35,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 class SaleSerializer(serializers.ModelSerializer):
     # breed_name = serializers.ReadOnlyField(source=Sale.breed)
-    # breed_name = serializers.SerializerMethodField('get_breed')
-    breed_name = SaleSerializer(many=True,source=breed_name)
+    breed_name = serializers.SerializerMethodField('get_breed_name')
+    # breed_name = SaleSerializer(many=True,source=breed_name)
     
     class Meta:
         model = Sale
@@ -47,9 +47,10 @@ class SaleSerializer(serializers.ModelSerializer):
         # fields = '__all__'
         # depth = 1
     
-    # def get_breed(self,obj):
-    #     print("Object type:",type(obj))
-    #     return obj.breed
+    def get_breed_name(self,obj):
+        # print("Object type:",list(obj.breed.all()))
+        return obj.breed.values_list('name',flat=True)
+    
     
     # customer = CustomerSerializer()
 
