@@ -44,9 +44,12 @@ class SaleModelViewSet(ModelViewSet):
         if sale_date is not None:
             queryset = Sale.objects.filter(sale_date__iexact=sale_date)
         
+        elif start_date is not None and end_date is not None:
+            queryset = Sale.objects.filter(sale_date__range=(start_date,end_date))
+        
         else:
-            if start_date is not None and end_date is not None:
-                queryset = Sale.objects.filter(sale_date__range=(start_date,end_date))
+            breed = self.request.query_params.get('breed')
+            queryset =  Sale.objects.filter(breed__name__iexact=breed)
                 
         serializer_class = SaleSerializer(queryset, many=True)
         return Response(serializer_class.data)
