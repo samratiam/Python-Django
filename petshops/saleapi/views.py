@@ -35,6 +35,12 @@ class SaleModelViewSet(ModelViewSet):
     serializer_class = SaleSerializer
     queryset = Sale.objects.all()
     
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, many=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
     def list(self, request):
         sale_date = self.request.query_params.get('sale_date')
         
@@ -50,7 +56,8 @@ class SaleModelViewSet(ModelViewSet):
         else:
             breed = self.request.query_params.get('breed')
             queryset =  Sale.objects.filter(breed__name__iexact=breed)
-                
+        
+        queryset = Sale.objects.all().order_by('-id')
         serializer_class = SaleSerializer(queryset, many=True)
         return Response(serializer_class.data)
     
