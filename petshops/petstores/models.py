@@ -63,6 +63,7 @@ class Breed(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
     petstore = models.ForeignKey(Petstore,on_delete=models.CASCADE)
     
+ 
     def __str__(self):
         return self.name
     
@@ -94,7 +95,7 @@ class Sale(models.Model):
     
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     customer = models.ForeignKey(Customer,related_name="customer_detail", on_delete=models.SET_NULL,null=True)
-    breed = models.ManyToManyField(Breed,related_name="breed_name")
+    breed = models.ManyToManyField(Breed,related_name="sale")
     
     # def get_breeds(self):
     #     return Breed.objects.filter(breed__name=self)

@@ -20,8 +20,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class BreedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Breed
-        fields = '__all__'
-        
+                
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer

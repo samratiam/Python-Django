@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from petstores.models import Location,Petstore,Category,Breed,Employee,Sale,Customer
-from .serializers import LocationSerializer,SaleSerializer,BreedSerializer
+from .serializers import LocationSerializer,SaleSerializer,BreedSerializer,SaleCategorySerializer
 from .serializers import CategorySerializer,CustomerSerializer,EmployeeSerializer,PetstoreSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -35,11 +35,11 @@ class SaleModelViewSet(ModelViewSet):
     serializer_class = SaleSerializer
     queryset = Sale.objects.all()
     
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, many=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data, many=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def list(self, request):
         sale_date = self.request.query_params.get('sale_date')
@@ -54,10 +54,7 @@ class SaleModelViewSet(ModelViewSet):
             queryset = Sale.objects.filter(sale_date__range=(start_date,end_date))
         
         else:
-            breed = self.request.query_params.get('breed')
-            queryset =  Sale.objects.filter(breed__name__iexact=breed)
-        
-        queryset = Sale.objects.all().order_by('-id')
+            queryset = Sale.objects.all().order_by('-id')
         serializer_class = SaleSerializer(queryset, many=True)
         return Response(serializer_class.data)
     
@@ -70,5 +67,7 @@ class SaleModelViewSet(ModelViewSet):
     #     return Response(serializer_class.data)
         
     
-        
+class SaleCategoryModelViewSet(ModelViewSet):
+    serializer_class = SaleCategorySerializer
+    queryset = Breed.objects.all() 
 
