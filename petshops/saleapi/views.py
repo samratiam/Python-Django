@@ -66,8 +66,8 @@ class SaleModelViewSet(ModelViewSet):
     #     serializer_class = SaleSerializer(queryset, many=True)
     #     return Response(serializer_class.data)
         
-    
+from django.db.models import Sum
 class SaleCategoryModelViewSet(ModelViewSet):
     serializer_class = SaleCategorySerializer
-    queryset = Breed.objects.all() 
+    queryset = Breed.objects.all().annotate(salequantity=Sum('sale__total_quantity'),saleprice=Sum('sale__total_price'))
 

@@ -84,44 +84,29 @@ class SaleSerializer(serializers.ModelSerializer):
 
 from django.db.models import Sum
 class SaleCategorySerializer(serializers.ModelSerializer):
-    total_quantity = list(Breed.objects.annotate(salequantity=Sum('sale__total_quantity')).values('salequantity'))
-    total_price = list(Breed.objects.annotate(saleprice=Sum('sale__total_price')).values('saleprice'))
-    print("total quantity:",total_quantity)
-    print("total price:",total_price)
-    
-    # salequantity = serializers.SerializerMethodField()
-    # saleprice = serializers.SerializerMethodField()
-    
-    
-    # def get_salequantity(self,obj):
-    #     return self.objects.annotate(salequantity=Sum('sale__total_quantity')).values('salequantity')
-    
-    # def to_representation(self, instance):
-    #     representation = super().to_representation(instance)
-    #     representation['salequantity'] = instance.sale.all().total_quantity.sum()
-
-    #     return representation
-    
-    salequantity = serializers.SerializerMethodField()
-    saleprice = serializers.SerializerMethodField()
+    salequantity = serializers.IntegerField()
+    saleprice = serializers.IntegerField()
     
     class Meta:
         model = Breed
         fields = ['id','name','salequantity','saleprice']
 
-    def get_salequantity(self,obj):
-        # print("Object type:",list(obj.breed.all()))
-        s = []
-        s = obj.sale.annotate(salequantity=Sum('total_quantity')).values_list('salequantity',flat=True)
-        result = sum(s)
-        return result
+    ###To implement Sum of quantity and price from sales in Serializer
+    # def get_salequantity(self,obj):
+    #     # print("Object type:",list(obj.breed.all()))
+    #     s = []
+    #     s = obj.sale.filter(breed__name=obj.name).values_list('total_quantity',flat=True)
+    #     print(s)
+    #     result = sum(s)
+    #     return result
         # return obj.sale.annotate(salequantity=Sum('total_quantity')).values('salequantity')
     
-    def get_saleprice(self,obj):
-        s = []
-        s = obj.sale.annotate(salequantity=Sum('total_price')).values_list('salequantity',flat=True)
-        result = sum(s)
-        return result
+    # def get_saleprice(self,obj):
+    #     s = []
+    #     s = obj.sale.annotate(salequantity=Sum('total_price')).values('salequantity')
+    #     print("value of s:",s)
+    #     # result = sum(s)
+    #     return 5
         
     
     
