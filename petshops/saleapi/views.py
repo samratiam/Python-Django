@@ -2,6 +2,7 @@ from django.shortcuts import render
 from petstores.models import Location,Petstore,Category,Breed,Employee,Sale,Customer
 from .serializers import LocationSerializer,SaleSerializer,BreedSerializer,SaleCategorySerializer
 from .serializers import CategorySerializer,CustomerSerializer,EmployeeSerializer,PetstoreSerializer
+from .serializers import SalesetSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
@@ -58,6 +59,8 @@ class SaleModelViewSet(ModelViewSet):
         serializer_class = SaleSerializer(queryset, many=True)
         return Response(serializer_class.data)
     
+   
+    
     # def list(self,request):
     #     start_date = self.request.query_params.get('start_date')
     #     end_date = self.request.query_params.get('end_date')
@@ -68,6 +71,102 @@ class SaleModelViewSet(ModelViewSet):
         
 from django.db.models import Sum
 class SaleCategoryModelViewSet(ModelViewSet):
-    serializer_class = SaleCategorySerializer
+    serializer = SaleCategorySerializer
     queryset = Breed.objects.all().annotate(salequantity=Sum('sale__total_quantity'),saleprice=Sum('sale__total_price'))
+
+from django.core.exceptions import ValidationError
+class SalesetModelViewSet(ModelViewSet):
+    queryset = Sale.objects.all()
+    serializer_class = SalesetSerializer
+    
+    def get_object(self, obj_id):
+        try:
+            return Sale.objects.get(id=obj_id)
+        except (Sale.DoesNotExist, ValidationError):
+            raise status.HTTP_400_BAD_REQUEST
+    
+    def validate_ids(self, id_list):
+        for id in id_list:
+            try:
+                Sale.objects.get(id=id)
+            except (Sale.DoesNotExist, ValidationError):
+                raise status.HTTP_400_BAD_REQUEST
+        return True
+    
+    
+    def put(self, request, *args, **kwargs):
+       data = request.data
+       instances = []
+       for temp_dict in data:
+            id = temp_dict['id']
+            obj = self.queryset.get(id=id)
+            obj.total_quantity = temp_dict['total_quantity']
+            obj.total_price = temp_dict['total_price']
+            obj.Employee = temp_dict['employee'] 
+            obj.Customer = temp_dict['customer']
+            obj.Breed = temp_dict['breed'] 
+            obj.save()
+            instances.append(obj)
+       serializer = SalesetSerializer(instances, many=True)
+       return Response(serializer.data)
+    
+    
+    ###Another way
+    # def put(self, request, *args, **kwargs):
+    #     for i in request.data:        
+    #         instance = Sale.objects.get(id=i['id'])                
+    #         serializer = SalesetSerializer(instance, data=i)
+    #         if serializer.is_valid(raise_exception=True):
+    #             self.perform_update(serializer)            
+    #         # return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    
+    
+  
+    
+    # def put(self, request, *args, **kwargs):
+    #     # partial = kwargs.pop('partial', False)
+    #     data = request.data
+    #     print("Type of data:",type(data))
+        
+    #     print("Data:",data)
+    #     instances = []
+        
+    #     for temp_dict in data:
+    #         id = temp_dict['id']
+    #         total_price = temp_dict['total_price']
+    #         total_quantity = temp_dict['total_quantity']
+    #         employee = temp_dict['employee']
+    #         customer = temp_dict['customer']
+    #         breed = temp_dict['breed']
+    #         # sale_date = temp_dict['sale_date']
+    #         print("ID:",id)
+    #         obj = self.get_object(id)
+    #         obj.total_price = total_price
+    #         obj.total_quantity = total_quantity
+    #         for i in range(employee):
+    #             obj.employee = Employee.objects.get(id=employee[i])
+    #         for i in range(customer):
+    #             obj.customer = Customer.objects.get(id=customer[i])
+    #         for i in range(breed):
+    #             obj.breed = Breed.objects.get(id=breed[i])
+    #         # obj.sale_date = sale_date
+    #         obj.save()
+    #         instances.append(obj)
+    #     print("Temp dict:",temp_dict)
+    #     serializer_class = SalesetSerializer(instances,many=True)
+    #     # for instance in instances:
+    #         # serializer = self.get_serializer(instances, data=request.data, partial=partial,many=True)
+    #         # serializer.is_valid(raise_exception=True)
+    #         # self.perform_update(serializer)
+    #     return Response(serializer_class.data)
+    
+    # def update(self, request, *args, **kwargs):
+    #     partial = kwargs.pop('partial', False)
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_update(serializer)
+    #     return Response(serializer.data)
 

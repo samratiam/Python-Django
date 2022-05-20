@@ -90,7 +90,6 @@ class SaleCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Breed
         fields = ['id','name','salequantity','saleprice']
-
     ###To implement Sum of quantity and price from sales in Serializer
     # def get_salequantity(self,obj):
     #     # print("Object type:",list(obj.breed.all()))
@@ -107,6 +106,15 @@ class SaleCategorySerializer(serializers.ModelSerializer):
     #     print("value of s:",s)
     #     # result = sum(s)
     #     return 5
+    
+class SalesetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sale
+        fields = '__all__'
+    
+   
+
+
         
     
     
