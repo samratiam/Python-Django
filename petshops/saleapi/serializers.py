@@ -106,14 +106,58 @@ class SaleCategorySerializer(serializers.ModelSerializer):
     #     print("value of s:",s)
     #     # result = sum(s)
     #     return 5
-    
+
 class SalesetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
         fields = '__all__'
     
-   
+class SaleRecordSerializer(serializers.ModelSerializer):
+    employee_name = serializers.SerializerMethodField()
+    customers = serializers.SerializerMethodField()
+    sale_quantity = serializers.SerializerMethodField()
+    sale_price = serializers.SerializerMethodField()
+    breed_id = serializers.SerializerMethodField()
+    employee_id = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Sale
+        fields = ['sale_quantity','sale_price','customers','employee_name','breed_id','employee_id']
+    
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     representation['salequantity'] = self.context['salequantity']
+    #     representation['saleprice'] = self.context['saleprice']
 
+    #     return representation
+    
+    # def get_customers(self, obj):
+    #     # s = []
+    #     # s = Customer.objects.filter(name=request.).values()
+    #     # print("Values of s:",s)
+    #     print("Object:",obj.all().values_list())
+    #     return obj
+    
+    
+    def get_sale_quantity(self, obj):
+        return self.context.get('sale_quantity')
+
+    def get_sale_price(self, obj):
+        return self.context.get('sale_price')
+
+    def get_customers(self, obj):
+        return self.context.get('customers')
+    
+    def get_employee_name(self,obj):
+        return self.context.get('employee_name')
+    
+    def get_employee_id(self,obj):
+        return self.context.get('employee_id')
+    
+    def get_breed_id(self,obj):
+        return self.context.get('breed_id')
+    
+    
 
         
     

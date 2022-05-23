@@ -2,7 +2,7 @@ from django.shortcuts import render
 from petstores.models import Location,Petstore,Category,Breed,Employee,Sale,Customer
 from .serializers import LocationSerializer,SaleSerializer,BreedSerializer,SaleCategorySerializer
 from .serializers import CategorySerializer,CustomerSerializer,EmployeeSerializer,PetstoreSerializer
-from .serializers import SalesetSerializer
+from .serializers import SalesetSerializer,SaleRecordSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
@@ -109,6 +109,43 @@ class SalesetModelViewSet(ModelViewSet):
             instances.append(obj)
        serializer = SalesetSerializer(instances, many=True)
        return Response(serializer.data)
+    
+class SaleRecordModelViewSet(ModelViewSet):
+    queryset = Sale.objects.all()
+    serializer_class = SaleRecordSerializer
+    
+    def list(self, request):
+        breed = self.request.query_params.get('breed')
+        employee = self.request.query_params.get('employee')
+        
+        if breed is not None and employee is not None:
+            # queryset = Sale.objects.filter(employee__name__iexact=employee,breed__name__iexact=breed)
+            b = Sale.objects.filter(employee__name__iexact=employee,breed__name__iexact=breed).values_list('total_quantity',flat=True)
+                # print("Value of b:",b)
+            print("Sum of b:",sum(b))
+            sale_quantity = sum(b)
+            
+            c = []
+            c = Sale.objects.filter(employee__name__iexact=employee,breed__name__iexact=breed).values_list('total_price',flat=True)
+            print("Sum of c:",sum(c))
+            sale_price = sum(c)
+            
+            
+            customers = Sale.objects.filter(employee__name__iexact=employee,breed__name__iexact=breed).values('customer_id','customer__name','total_quantity','total_price')
+            employee_id = Sale.objects.filter(employee__name__iexact=employee).values_list('employee__id',flat=True).distinct()
+            breed_id = Sale.objects.filter(breed__name__iexact=breed).values_list('breed__id',flat=True).distinct()
+            # employee_name = Sale.objects.get(employee__name__iexact=employee).values('employee__name')
+            
+            
+            data = {'sale_quantity':sale_quantity,'sale_price':sale_price,'customers':customers,'employee_name':employee,'employee_id':employee_id[0],'breed_id':breed_id[0]}
+            
+                        
+            queryset = Sale.objects.all()
+            serializer_class = SaleRecordSerializer(queryset, context=data)
+        else:
+            queryset = Sale.objects.all().order_by('-id')
+            serializer_class = SaleRecordSerializer(queryset, many=True)
+        return Response(serializer_class.data)
     
     
     ###Another way
