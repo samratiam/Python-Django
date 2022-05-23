@@ -113,16 +113,18 @@ class SalesetSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
 class SaleRecordSerializer(serializers.ModelSerializer):
-    employee_name = serializers.SerializerMethodField()
-    customers = serializers.SerializerMethodField()
-    sale_quantity = serializers.SerializerMethodField()
-    sale_price = serializers.SerializerMethodField()
-    breed_id = serializers.SerializerMethodField()
-    employee_id = serializers.SerializerMethodField()
+    # employee_name = serializers.SerializerMethodField()
+    # customers = serializers.SerializerMethodField()
+    # sale_quantity = serializers.SerializerMethodField()
+    # sale_price = serializers.SerializerMethodField()
+    # breed_id = serializers.SerializerMethodField()
+    # employee_id = serializers.SerializerMethodField()
+    
+    data = serializers.SerializerMethodField()
     
     class Meta:
         model = Sale
-        fields = ['sale_quantity','sale_price','customers','employee_name','breed_id','employee_id']
+        fields = ['data']
     
     # def to_representation(self, instance):
     #     representation = super().to_representation(instance)
@@ -139,23 +141,24 @@ class SaleRecordSerializer(serializers.ModelSerializer):
     #     return obj
     
     
-    def get_sale_quantity(self, obj):
-        return self.context.get('sale_quantity')
+    def get_data(self, obj):
+        data = self.context.get('data')
+        return data
 
-    def get_sale_price(self, obj):
-        return self.context.get('sale_price')
+    # def get_sale_price(self, obj):
+    #     return self.context.get('sale_price')
 
-    def get_customers(self, obj):
-        return self.context.get('customers')
+    # def get_customers(self, obj):
+    #     return self.context.get('customers')
     
-    def get_employee_name(self,obj):
-        return self.context.get('employee_name')
+    # def get_employee_name(self,obj):
+    #     return self.context.get('employee_name')
     
-    def get_employee_id(self,obj):
-        return self.context.get('employee_id')
+    # def get_employee_id(self,obj):
+    #     return self.context.get('employee_id')
     
-    def get_breed_id(self,obj):
-        return self.context.get('breed_id')
+    # def get_breed_id(self,obj):
+    #     return self.context.get('breed_id')
     
     
 
