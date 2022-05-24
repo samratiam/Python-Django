@@ -142,7 +142,8 @@ class SaleRecordSerializer(serializers.ModelSerializer):
     
     
     def get_data(self, obj):
-        data = self.context.get('data')
+        data = self.context
+        print("Data:",data)
         return data
 
     # def get_sale_price(self, obj):

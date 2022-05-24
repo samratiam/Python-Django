@@ -44,15 +44,16 @@ INSTALLED_APPS = [
     'modelviewsets',
     'customviewset',
     'django_rest_passwordreset',
+    'rest_framework.authtoken',
 ]
 
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ],
+# }
 
 #Default JWT settings
 from datetime import timedelta

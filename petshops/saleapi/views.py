@@ -141,11 +141,11 @@ class SaleRecordModelViewSet(ModelViewSet):
             
                         
             queryset = Sale.objects.all()
-            serializer_class = SaleRecordSerializer(queryset, context={'data':data})
+            serializer_class = SaleRecordSerializer(queryset, context=data)
         else:
             queryset = Sale.objects.all().order_by('-id')
             serializer_class = SaleRecordSerializer(queryset, many=True)
-        return Response(serializer_class.data)
+        return Response(serializer_class.context)
     
     
     ###Another way
