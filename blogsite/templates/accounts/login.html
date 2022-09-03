@@ -6,14 +6,18 @@
 		<div>
 			<form class="form-control" method="post">{% csrf_token %} 
 			{{ form.as_p }}
+			<a href="/accounts/password_reset/">Forget password?</button> 
+				<br/> <br/>
 			<button class="btn btn-primary" type="submit">Login</button></div>
+			<br/> <br/><br/><br/>
 			</form>
-			{% comment %} <button class="btn btn-secondary" href="/accounts/signup/">SignUp</button>
-			<button class="btn btn-success" href="/accounts/signup/">Forget password?</button> {% endcomment %}
-			<br><br><br>
+			<br><br>
+			<br/>
+ 
 		</div>
-		<br><br><br>
-		<a href="/accounts/password_reset/">Forgot Your Password ?</a>
+		
+		<br/>
+		<br/>
 	
 	
 </div>
