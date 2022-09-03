@@ -19,10 +19,10 @@ def Create(request):
         blogforms = PostForm()
         return render(request, 'posts/create.html', {'blogform':blogforms})
 
-
+@login_required
 def blogs(request):
-    blogs = Post.objects.all()
-    paginator = Paginator(blogs, 5)
+    blogs = Post.objects.order_by('-published_date')
+    paginator = Paginator(blogs, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     # spread_method()
@@ -83,28 +83,28 @@ def search(request):
         return HttpResponse("No results found")
     
 #Writing into google spreadsheet
-import gspread
-import os
+# import gspread
+# import os
 
-def export(request):
-    CURR_DIR = os.path.dirname(os.path.realpath(__file__))
-    credential_file=str(CURR_DIR)+'/credentials.json'
+# def export(request):
+#     CURR_DIR = os.path.dirname(os.path.realpath(__file__))
+#     credential_file=str(CURR_DIR)+'/credentials.json'
 
-    gc = gspread.service_account(filename=credential_file)
+#     gc = gspread.service_account(filename=credential_file)
 
-    sh = gc.open("Blogsite")
+#     sh = gc.open("Blogsite")
 
-    # print(sh.sheet1.get('A1'))
+#     # print(sh.sheet1.get('A1'))
 
-    #Get a cell value from Sheet1
-    worksheet = sh.sheet1
+#     #Get a cell value from Sheet1
+#     worksheet = sh.sheet1
 
-    b = Post.objects.values_list('user__first_name',flat=True).distinct()
-    print("##############")
-    print(b)
+#     b = Post.objects.values_list('user__first_name',flat=True).distinct()
+#     print("##############")
+#     print(b)
 
-    for i in range(len(b)):
-        worksheet.update_cell(i+2,1,b[i])
+#     for i in range(len(b)):
+#         worksheet.update_cell(i+2,1,b[i])
 
-    return redirect("blogs")
+#     return redirect("blogs")
     

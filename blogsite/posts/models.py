@@ -17,7 +17,7 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    published_date = models.DateTimeField(auto_now=True)
+    published_date = models.DateField(auto_now=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
     slug = models.SlugField(null=True, unique=True)
