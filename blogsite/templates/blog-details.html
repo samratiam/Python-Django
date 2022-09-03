@@ -22,9 +22,16 @@
 
 	{% else %}
 	<div class="container">
+		<p>
+			<small>
+				Posted By:
+				<b> {{ blog.user.first_name }} {{blog.user.last_name}} </b>
+				| {{blog.published_date}}
+			</small>
+		</p>
 		<h3>{{blog.title}}</h3>
+		<button class="btn btn-info">{{blog.category}}</button>
 		<p>{{blog.content}}</p>
-		<p>by @{{blog.user}}</p>
 		<a href="{% url 'blogs' %}"
 			><button class="btn btn-secondary">Back to home</button></a
 		>
