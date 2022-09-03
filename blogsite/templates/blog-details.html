@@ -1,23 +1,34 @@
-{% extends 'base.html' %} {% load static %} 
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <main>
 	{% if request.user == blog.user %}
-		<div class="container">
-			<h3>{{blog.title}}</h3>
-			<p>{{blog.content}}</p>
-			{{ blog.slug }}
-			<p>by = {{blog.user}}</p>
-			<button class=" btn btn-danger"> <a href="{% url 'delete' blog.slug  %}">Delete</a> </button> <a href="{% url 'blogs' %}"><button class="btn btn-secondary">Back to home</button></a>  <button class = " btn btn-success"> <a href="{% url 'update' blog.slug %}"> Edit</a> </button>
-		</div>
-		
+	<div class="container">
+		<p>
+			<small>
+				Posted By:
+				<b> {{ blog.user.first_name }} {{blog.user.last_name}} </b>
+				| {{blog.published_date}}
+			</small>
+		</p>
+		<h3>{{blog.title}}</h3>
+		<button class="btn btn-info">{{blog.category}}</button>
+		<p>{{blog.content}}</p>
+
+		<a class="btn btn-success text-white" href="{% url 'update' blog.slug %}">
+			Edit</a
+		>
+		<a class="btn btn-danger" href="{% url 'delete' blog.slug  %}">Delete</a>
+		<a class="btn btn-secondary" href="{% url 'blogs' %}">Back to home</a>
+	</div>
+
 	{% else %}
-		<div class="container">
-			<h3>{{blog.title}}</h3>
-			<p>{{blog.content}}</p>
-			<p>by  @{{blog.user}}</p>
-			<a href="{% url 'blogs' %}"><button class="btn btn-secondary">Back to home</button></a>
-		</div>
+	<div class="container">
+		<h3>{{blog.title}}</h3>
+		<p>{{blog.content}}</p>
+		<p>by @{{blog.user}}</p>
+		<a href="{% url 'blogs' %}"
+			><button class="btn btn-secondary">Back to home</button></a
+		>
+	</div>
 	{% endif %}
 </main>
 {% endblock %}
