@@ -71,6 +71,7 @@ def delete(request, slug):
 
     return render(request, "posts/delete.html", context)
 
+@login_required
 def search(request):
     blogs = Post.objects.all()
     if 'keyword' in request.GET:
