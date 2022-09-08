@@ -7,6 +7,7 @@ from .models import Post
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
+@login_required
 def Create(request):
     if request.method=='POST':
         blogforms = PostForm(request.POST)
@@ -29,12 +30,13 @@ def blogs(request):
     data = {'blogs':blogs, 'page_obj': page_obj}
     return render(request,'blogs.html',data)
 
+@login_required
 def blog_details(request,slug):
     blog = Post.objects.get(slug=slug)
     data = {'blog':blog}
     return render(request,'blog-details.html',data) 
 
-
+@login_required
 def dashblog_details(request,slug):
     blog = Post.objects.get(slug=slug)
     data = {'blog':blog}
@@ -57,7 +59,7 @@ def update(request, slug):
 
     return render(request, "posts/update.html", context)
 
-
+@login_required
 def delete(request, slug):
 
     context = {}
@@ -83,29 +85,4 @@ def search(request):
     else:
         return HttpResponse("No results found")
     
-#Writing into google spreadsheet
-# import gspread
-# import os
 
-# def export(request):
-#     CURR_DIR = os.path.dirname(os.path.realpath(__file__))
-#     credential_file=str(CURR_DIR)+'/credentials.json'
-
-#     gc = gspread.service_account(filename=credential_file)
-
-#     sh = gc.open("Blogsite")
-
-#     # print(sh.sheet1.get('A1'))
-
-#     #Get a cell value from Sheet1
-#     worksheet = sh.sheet1
-
-#     b = Post.objects.values_list('user__first_name',flat=True).distinct()
-#     print("##############")
-#     print(b)
-
-#     for i in range(len(b)):
-#         worksheet.update_cell(i+2,1,b[i])
-
-#     return redirect("blogs")
-    

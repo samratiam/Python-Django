@@ -25,7 +25,7 @@ def login_view(request):
                                 password = form.cleaned_data['password'])
         if user:
             login(request,user)
-            return redirect('blogs')
+            return redirect('dashboard')
         else:
             return HttpResponse("Your credentials donot match")
     elif request.method=='GET':
